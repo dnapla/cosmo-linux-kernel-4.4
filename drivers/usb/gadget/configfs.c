@@ -1701,7 +1701,7 @@ void usb_state_monitor_work(void)
 		INIT_DEFERRABLE_WORK(&usb_state_monitor_dw, do_usb_state_monitor_work);
 		inited = 1;
 	}
-	schedule_delayed_work(&usb_state_monitor_dw, msecs_to_jiffies(USB_STATE_MONITOR_DELAY));
+//	schedule_delayed_work(&usb_state_monitor_dw, msecs_to_jiffies(USB_STATE_MONITOR_DELAY));
 }
 
 #define DESCRIPTOR_STRING_ATTR(field, buffer)				\
