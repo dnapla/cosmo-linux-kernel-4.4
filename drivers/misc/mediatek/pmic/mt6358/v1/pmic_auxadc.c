@@ -314,7 +314,9 @@ int wk_auxadc_battmp_dbg(int bat_temp)
 
 void pmic_auxadc_lock(void)
 {
+#ifdef CONFIG_HAS_WAKELOCKS
 	wake_lock(&pmic_auxadc_wake_lock);
+#endif
 	mutex_lock(&pmic_adc_mutex);
 }
 
@@ -332,7 +334,9 @@ void unlockadcch3(void)
 void pmic_auxadc_unlock(void)
 {
 	mutex_unlock(&pmic_adc_mutex);
+#ifdef CONFIG_HAS_WAKELOCKS	
 	wake_unlock(&pmic_auxadc_wake_lock);
+#endif
 }
 
 struct pmic_auxadc_channel_new {
@@ -834,8 +838,10 @@ void mt6358_adc_cali_init(void)
 void mt6358_auxadc_init(void)
 {
 	HKLOG("%s\n", __func__);
+#ifdef CONFIG_HAS_WAKELOCKS
 	wake_lock_init(&pmic_auxadc_wake_lock,
 			WAKE_LOCK_SUSPEND, "PMIC AuxADC wakelock");
+#endif
 	mutex_init(&pmic_adc_mutex);
 
 	parsing_cust_setting();

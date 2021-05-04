@@ -427,8 +427,9 @@ int bat_percent_notify_handler(void *unused)
 
 		wait_event_interruptible(bat_percent_notify_waiter,
 					 (bat_percent_notify_flag == true));
-
+#ifdef CONFIG_HAS_WAKELOCKS
 		pmic_wake_lock(&bat_percent_notify_lock);
+#endif		
 		mutex_lock(&bat_percent_notify_mutex);
 
 #if defined(CONFIG_MTK_SMART_BATTERY)
@@ -997,7 +998,9 @@ int dlpt_notify_handler(void *unused)
 
 		wait_event_interruptible(dlpt_notify_waiter, (dlpt_notify_flag == true));
 
+#ifdef CONFIG_HAS_WAKELOCKS
 		pmic_wake_lock(&dlpt_notify_lock);
+#endif
 		mutex_lock(&dlpt_notify_mutex);
 		/*---------------------------------*/
 
@@ -1837,9 +1840,10 @@ int pmic_throttling_dlpt_init(void)
 	#endif
 #endif
 
+#ifdef CONFIG_HAS_WAKELOCKS
 	pmic_init_wake_lock(&bat_percent_notify_lock, "bat_percent_notify_lock wakelock");
 	pmic_init_wake_lock(&dlpt_notify_lock, "dlpt_notify_lock wakelock");
-
+#endif
 	/* no need to depend on LOW_BATTERY_PROTECT */
 	lbat_service_init();
 #ifdef LOW_BATTERY_PROTECT
